@@ -1,45 +1,32 @@
 const express = require('express');
 const multer = require('multer');
-const fs = require('fs');
-const path = require('path');
-const { promisify } = require('util');
 const multerConfig = require('./config/multer');
-
-const Post = require('./models/Post');
 
 const routes = express.Router();
 
-routes.get("/posts", async (req, res) => {
-    const posts = await Post.findAll();
+const ContrachequeController = require('./controllers/ContrachequeController');
+const FuncionarioController = require('./controllers/FuncionarioController');
+const PostController = require('./controllers/PostController');
 
-    return res.json(posts);
-});
+// Rotas - Contracheque
+routes.post('/api/contracheque', ContrachequeController.create);
+routes.post('/api/contracheque/all', ContrachequeController.index);
+routes.get('/api/contracheque.details/:cod_contracheque', ContrachequeController.details);
+routes.delete('/api/contracheque/:cod_contracheque', ContrachequeController.delete);
+routes.put('/api/contracheque', ContrachequeController.update);
 
-routes.post("/posts", multer(multerConfig).single('file'), async (req, res) => {
-    const { originalname: nome_post, size: size_post, filename: key_post } = req.file;
+// Rotas - Funcionario
+routes.post('/api/funcionario', FuncionarioController.create);
+routes.get('/api/funcionario', FuncionarioController.index);
+routes.get('/api/funcionario.details/:cod_funcionario', FuncionarioController.details);
+routes.delete('/api/funcionario/:cod_funcionario', FuncionarioController.delete);
+routes.put('/api/funcionario', FuncionarioController.update);
 
-    const post = await Post.create({
-        nome_post,
-        size_post,
-        key_post,
-        url_post: `${process.env.APP_URL}/files/${key_post}`,
-    });
-
-    return res.json(post);
-});
-
-routes.delete("/posts/:cod_post", async (req, res) => {
-    const { cod_post } = req.params;
-
-    const post = await Post.findByPk(cod_post);
-
-    await promisify(fs.unlink)(
-        path.resolve(__dirname, '..', 'uploads', post.key_post)
-    );
-
-    await Post.destroy({ where: { cod_post } });
-
-    return res.send();
-});
+// Rotas - Post
+routes.post('/api/post', multer(multerConfig).single('file'), PostController.create);
+routes.get('/api/post', PostController.index);
+routes.get('/api/post.details/:cod_post', PostController.details);
+routes.delete('/api/post/:cod_post', PostController.delete);
+routes.put('/api/post', PostController.update);
 
 module.exports = routes;
