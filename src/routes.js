@@ -39,13 +39,13 @@ routes.delete('/api/tipousuario/:cod_tipo_usuario', TipoUsuarioController.delete
 routes.put('/api/tipousuario', TipoUsuarioController.update);
 
 // Rotas - Usuario
-routes.post('/api/usuario', UsuarioController.create);
-routes.get('/api/usuario', UsuarioController.index);
+routes.post('/api/usuario/login', UsuarioController.login);
+routes.post('/api/usuario/:cod_funcionario', UsuarioController.create);
+routes.get('/api/usuario/checktoken', UsuarioController.checkToken);
+routes.get('/api/usuario/destroytoken', UsuarioController.destroyToken);
+routes.get('/api/usuario/:cod_funcionario', UsuarioController.index);
 routes.get('/api/usuario.details/:cod_usuario', UsuarioController.details);
 routes.delete('/api/usuario/:cod_usuario', UsuarioController.delete);
 routes.put('/api/usuario', UsuarioController.update);
-routes.post('/api/usuario/login', UsuarioController.login);
-routes.get('/api/usuario/checktoken', UsuarioController.checkToken);
-routes.get('/api/usuario/destroytoken', UsuarioController.destroyToken);
 
 module.exports = routes;

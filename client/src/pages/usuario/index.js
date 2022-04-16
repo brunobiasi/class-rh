@@ -20,6 +20,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { useParams } from 'react-router-dom';
 import api from '../../services/api';
 import { getTipoUsuarioColor } from '../../functions/static_data_usuario';
 
@@ -30,8 +31,10 @@ function DashboardContent() {
   const [usuario, setUsuario] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const { cod_funcionario } = useParams();
+
   async function loadUsuario() {
-    const response = await api.get("/api/usuario");
+    const response = await api.get("/api/usuario/" + cod_funcionario);
     setUsuario(response.data);
     setLoading(false);
   }
@@ -44,7 +47,7 @@ function DashboardContent() {
     if (window.confirm("Deseja realmente excluir este usuário?")) {
       var result = await api.delete('/api/usuario/' + cod_usuario);
       if (result.status === 200) {
-        window.location.href = '/usuario';
+        window.location.href = '/usuario/' + cod_funcionario;
       } else {
         alert('Ocorreu um erro. Por favor, tente novamente!');
       }
@@ -71,7 +74,7 @@ function DashboardContent() {
           <Container maxWidth="lg" sx={{ mt: 2, mb: 4 }}>
             <Grid container spacing={3}>
               <Grid item sm={12}>
-                <Button style={{ marginBottom: 10 }} variant="contained" href={'/usuario/cadastrar'}><AddIcon />Cadastrar</Button>
+                <Button style={{ marginBottom: 10 }} variant="contained" href={'/usuario/cadastrar/' + cod_funcionario}><AddIcon />Cadastrar</Button>
                 <Paper
                   sx={{
                     p: 2,

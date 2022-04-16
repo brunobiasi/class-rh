@@ -3,7 +3,7 @@ import PrivateRoute from './services/wAuth';
 
 import Login from './pages/login';
 
-import FuncionarioListar from './pages/contracheque/funcionario_listar';
+import ContrachequeFuncionarioListar from './pages/contracheque/funcionario_listar';
 import Contracheque from './pages/contracheque';
 import ContrachequeCadastrar from './pages/contracheque/contracheque_cadastrar';
 
@@ -15,6 +15,7 @@ import Setor from './pages/setor';
 import SetorEditar from './pages/setor/setor_editar';
 import SetorCadastrar from './pages/setor/setor_cadastrar';
 
+import UsuarioFuncionarioListar from './pages/usuario/funcionario_listar';
 import Usuario from './pages/usuario';
 import UsuarioEditar from './pages/usuario/usuario_editar';
 import UsuarioCadastrar from './pages/usuario/usuario_cadastrar';
@@ -25,7 +26,7 @@ export default function RoutesAll() {
             <Switch>
                 <Route path="/login" exact component={Login} />
 
-                <PrivateRoute path="/" exact component={FuncionarioListar} />
+                <PrivateRoute path="/contracheque" exact component={ContrachequeFuncionarioListar} />
                 <PrivateRoute path="/contracheque/:cod_funcionario" exact component={Contracheque} />
                 <PrivateRoute path="/contracheque/cadastrar/:cod_funcionario" exact component={ContrachequeCadastrar} />
 
@@ -37,8 +38,9 @@ export default function RoutesAll() {
                 <PrivateRoute path="/setor/cadastrar" exact component={SetorCadastrar} />
                 <PrivateRoute path="/setor/editar/:cod_setor" exact component={SetorEditar} />
 
-                <PrivateRoute path="/usuario" exact component={Usuario} />
-                <PrivateRoute path="/usuario/cadastrar" exact component={UsuarioCadastrar} />
+                <PrivateRoute path="/usuario" exact component={UsuarioFuncionarioListar} />
+                <PrivateRoute path="/usuario/:cod_funcionario" exact component={Usuario} />
+                <PrivateRoute path="/usuario/cadastrar/:cod_funcionario" exact component={UsuarioCadastrar} />
                 <PrivateRoute path="/usuario/editar/:cod_usuario" exact component={UsuarioEditar} />
             </Switch>
         </BrowserRouter>

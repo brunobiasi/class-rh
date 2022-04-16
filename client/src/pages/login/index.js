@@ -18,7 +18,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import CircularProgress from '@mui/material/CircularProgress';
 import api from '../../services/api';
-import { login, setIdUsuario, setNomeUsuario, setTipoUsuario } from '../../services/auth';
+import { login, setIdUsuario, setNomeUsuario, setTipoUsuario, setIdFuncionario } from '../../services/auth';
 
 function Copyright(props) {
     return (
@@ -49,6 +49,7 @@ export default function SignIn() {
                         login(res.data.token);
                         setIdUsuario(res.data.id_client);
                         setNomeUsuario(res.data.user_name);
+                        setIdFuncionario(res.data.id_funcionario);
                         setTipoUsuario(res.data.user_type);
 
                         window.location.href = '/';

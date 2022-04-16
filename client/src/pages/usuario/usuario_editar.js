@@ -29,6 +29,7 @@ function DashboardContent() {
   const [emailUsuario, setEmailUsuario] = useState('');
   const [password, setPassword] = useState('');
   const [codTipoUsuario, setCodTipoUsuario] = useState('');
+  const [codFuncionario, setCodFuncionario] = useState('');
 
   const { cod_usuario } = useParams();
 
@@ -44,6 +45,7 @@ function DashboardContent() {
     setEmailUsuario(response.data.email_usuario);
     setPassword(response.data.password_hash);
     setCodTipoUsuario(response.data.cod_tipo_usuario);
+    setCodFuncionario(response.data.cod_funcionario);
   }
 
   useEffect(() => {
@@ -64,7 +66,7 @@ function DashboardContent() {
       const response = await api.put('/api/usuario', data);
 
       if (response.status === 200) {
-        window.location.href = '/usuario';
+        window.location.href = '/usuario/' + codFuncionario;
       } else {
         alert('Erro ao atualizar o usuário!');
       }
@@ -93,8 +95,8 @@ function DashboardContent() {
           <Container maxWidth="lg" sx={{ mt: 2, mb: 4 }}>
             <Grid container spacing={3}>
               <Grid item sm={12}>
-                <Button style={{ marginBottom: 10, marginRight: 5 }} variant="contained" href={'/usuario'}><ArrowBackIcon />Voltar</Button>
-                <Button style={{ marginBottom: 10 }} variant="contained" href={'/usuario/cadastrar'}><AddIcon />Cadastrar</Button>
+                <Button style={{ marginBottom: 10, marginRight: 5 }} variant="contained" href={'/usuario/' + codFuncionario}><ArrowBackIcon />Voltar</Button>
+                <Button style={{ marginBottom: 10 }} variant="contained" href={'/usuario/cadastrar/' + codFuncionario}><AddIcon />Cadastrar</Button>
                 <Paper
                   sx={{
                     p: 2,

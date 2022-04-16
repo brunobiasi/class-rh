@@ -15,6 +15,7 @@ import Select from '@mui/material/Select';
 import Button from '@mui/material/Button';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SaveIcon from '@mui/icons-material/Save';
+import { useParams } from 'react-router-dom';
 import api from '../../services/api';
 
 const mdTheme = createTheme();
@@ -27,6 +28,8 @@ function DashboardContent() {
   const [emailUsuario, setEmailUsuario] = useState('');
   const [password, setPassword] = useState('');
   const [codTipoUsuario, setCodTipoUsuario] = useState('');
+
+  const { cod_funcionario } = useParams();
 
   async function loadTipoUsuario() {
     const response = await api.get("/api/tipousuario");
@@ -43,13 +46,14 @@ function DashboardContent() {
       email_usuario: emailUsuario,
       password: password,
       cod_tipo_usuario: codTipoUsuario,
+      cod_funcionario: parseInt(cod_funcionario),
     }
 
     if (nomeUsuario !== '' && emailUsuario !== '' && password !== '' && codTipoUsuario !== '') {
-      const response = await api.post('/api/usuario', data);
+      const response = await api.post('/api/usuario/' + cod_funcionario, data);
 
       if (response.status === 200) {
-        window.location.href = '/usuario';
+        window.location.href = '/usuario/' + cod_funcionario;
       } else {
         alert('Erro ao cadastrar o usuário!');
       }
@@ -78,7 +82,7 @@ function DashboardContent() {
           <Container maxWidth="lg" sx={{ mt: 2, mb: 4 }}>
             <Grid container spacing={3}>
               <Grid item sm={12}>
-                <Button style={{ marginBottom: 10 }} variant="contained" href={'/usuario'}><ArrowBackIcon />Voltar</Button>
+                <Button style={{ marginBottom: 10 }} variant="contained" href={'/usuario/' + cod_funcionario}><ArrowBackIcon />Voltar</Button>
                 <Paper
                   sx={{
                     p: 2,

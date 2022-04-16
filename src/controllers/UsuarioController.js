@@ -7,18 +7,21 @@ const secret = process.env.APP_SECRET;
 
 module.exports = {
     async index(req, res) {
+        const { cod_funcionario } = req.params;
         const usuario = await Usuario.findAll({
+            where: { cod_funcionario },
             include: [TipoUsuario]
         });
         res.json(usuario);
     },
     async create(req, res) {
+        const { cod_funcionario } = req.params;
         const { nome_usuario, email_usuario, password, cod_tipo_usuario } = req.body;
         let data = {};
         let usuario = await Usuario.findOne({ where: { email_usuario } });
 
         if (!usuario) {
-            data = { nome_usuario, email_usuario, password, cod_tipo_usuario };
+            data = { nome_usuario, email_usuario, password, cod_tipo_usuario, cod_funcionario };
 
             usuario = await Usuario.create(data);
             return res.status(200).json(usuario);
@@ -61,7 +64,7 @@ module.exports = {
                 expiresIn: '24h'
             });
             res.cookie('token', token, { httpOnly: true });
-            res.status(200).json({ status: 1, auth: true, token: token, id_client: usuario.cod_usuario, user_name: usuario.nome_usuario, user_type: usuario.cod_tipo_usuario });
+            res.status(200).json({ status: 1, auth: true, token: token, id_client: usuario.cod_usuario, user_name: usuario.nome_usuario, id_funcionario: usuario.cod_funcionario, user_type: usuario.cod_tipo_usuario });
         }
     },
     async checkToken(req, res) {

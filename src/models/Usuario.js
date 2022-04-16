@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const database = require('../db');
+const Funcionario = require('./Funcionario');
 const TipoUsuario = require('./TipoUsuario');
 const bcrypt = require('bcrypt');
 
@@ -40,6 +41,20 @@ const Usuario = database.define('usuario', {
 Usuario.prototype.checkPassword = function (password) {
     return bcrypt.compare(password, this.password_hash);
 }
+
+Funcionario.hasOne(Usuario, {
+    foreignKey: {
+        name: 'cod_funcionario',
+        allowNull: false,
+    },
+});
+
+Usuario.belongsTo(Funcionario, {
+    foreignKey: {
+        name: 'cod_funcionario',
+        allowNull: false,
+    },
+});
 
 TipoUsuario.hasMany(Usuario, {
     foreignKey: {
