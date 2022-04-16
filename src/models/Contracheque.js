@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const database = require('../db');
+const Funcionario = require('./Funcionario');
 
 const Contracheque = database.define('contracheque', {
     cod_contracheque: {
@@ -8,7 +9,23 @@ const Contracheque = database.define('contracheque', {
         allowNull: false,
         primaryKey: true,
     },
+    nome_contracheque: {
+        type: Sequelize.STRING,
+        allowNull: false,
+    },
     competencia_contracheque: {
+        type: Sequelize.STRING,
+        allowNull: false,
+    },
+    size_contracheque: {
+        type: Sequelize.FLOAT,
+        allowNull: false,
+    },
+    key_contracheque: {
+        type: Sequelize.STRING,
+        allowNull: false,
+    },
+    url_contracheque: {
         type: Sequelize.STRING,
         allowNull: false,
     },
@@ -16,5 +33,19 @@ const Contracheque = database.define('contracheque', {
     {
         timestamps: false,
     });
+
+Funcionario.hasMany(Contracheque, {
+    foreignKey: {
+        name: 'cod_funcionario',
+        allowNull: false,
+    },
+});
+
+Contracheque.belongsTo(Funcionario, {
+    foreignKey: {
+        name: 'cod_funcionario',
+        allowNull: false,
+    },
+});
 
 module.exports = Contracheque;

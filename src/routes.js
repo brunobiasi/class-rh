@@ -1,16 +1,18 @@
 const express = require('express');
 const multer = require('multer');
-const multerConfig = require('./config/multer');
+const ContrachequeMulter = require('./config/ContrachequeMulter');
 
 const routes = express.Router();
 
 const ContrachequeController = require('./controllers/ContrachequeController');
 const FuncionarioController = require('./controllers/FuncionarioController');
-const PostController = require('./controllers/PostController');
+const SetorController = require('./controllers/SetorController');
+const TipoUsuarioController = require('./controllers/TipoUsuarioController');
+const UsuarioController = require('./controllers/UsuarioController');
 
 // Rotas - Contracheque
-routes.post('/api/contracheque', ContrachequeController.create);
-routes.post('/api/contracheque/all', ContrachequeController.index);
+routes.post('/api/contracheque', multer(ContrachequeMulter).single('file'), ContrachequeController.create);
+routes.get('/api/contracheque/:cod_funcionario', ContrachequeController.index);
 routes.get('/api/contracheque.details/:cod_contracheque', ContrachequeController.details);
 routes.delete('/api/contracheque/:cod_contracheque', ContrachequeController.delete);
 routes.put('/api/contracheque', ContrachequeController.update);
@@ -22,11 +24,28 @@ routes.get('/api/funcionario.details/:cod_funcionario', FuncionarioController.de
 routes.delete('/api/funcionario/:cod_funcionario', FuncionarioController.delete);
 routes.put('/api/funcionario', FuncionarioController.update);
 
-// Rotas - Post
-routes.post('/api/post', multer(multerConfig).single('file'), PostController.create);
-routes.get('/api/post', PostController.index);
-routes.get('/api/post.details/:cod_post', PostController.details);
-routes.delete('/api/post/:cod_post', PostController.delete);
-routes.put('/api/post', PostController.update);
+// Rotas - Setor
+routes.post('/api/setor', SetorController.create);
+routes.get('/api/setor', SetorController.index);
+routes.get('/api/setor.details/:cod_setor', SetorController.details);
+routes.delete('/api/setor/:cod_setor', SetorController.delete);
+routes.put('/api/setor', SetorController.update);
+
+// Rotas - TipoUsuario
+routes.post('/api/tipousuario', TipoUsuarioController.create);
+routes.get('/api/tipousuario', TipoUsuarioController.index);
+routes.get('/api/tipousuario.details/:cod_tipo_usuario', TipoUsuarioController.details);
+routes.delete('/api/tipousuario/:cod_tipo_usuario', TipoUsuarioController.delete);
+routes.put('/api/tipousuario', TipoUsuarioController.update);
+
+// Rotas - Usuario
+routes.post('/api/usuario', UsuarioController.create);
+routes.get('/api/usuario', UsuarioController.index);
+routes.get('/api/usuario.details/:cod_usuario', UsuarioController.details);
+routes.delete('/api/usuario/:cod_usuario', UsuarioController.delete);
+routes.put('/api/usuario', UsuarioController.update);
+routes.post('/api/usuario/login', UsuarioController.login);
+routes.get('/api/usuario/checktoken', UsuarioController.checkToken);
+routes.get('/api/usuario/destroytoken', UsuarioController.destroyToken);
 
 module.exports = routes;

@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const database = require('../db');
+const Setor = require('./Setor');
 
 const Funcionario = database.define('funcionario', {
     cod_funcionario: {
@@ -20,5 +21,19 @@ const Funcionario = database.define('funcionario', {
     {
         timestamps: false,
     });
+
+Setor.hasMany(Funcionario, {
+    foreignKey: {
+        name: 'cod_setor',
+        allowNull: false,
+    },
+});
+
+Funcionario.belongsTo(Setor, {
+    foreignKey: {
+        name: 'cod_setor',
+        allowNull: false,
+    },
+});
 
 module.exports = Funcionario;

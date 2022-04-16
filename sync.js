@@ -3,7 +3,9 @@
 
     const Contracheque = require('./src/models/Contracheque');
     const Funcionario = require('./src/models/Funcionario');
-    const Post = require('./src/models/Post');
+    const Setor = require('./src/models/Setor');
+    const TipoUsuario = require('./src/models/TipoUsuario');
+    const Usuario = require('./src/models/Usuario');
 
     await database.sync({force: true});
 })();
