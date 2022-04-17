@@ -7,6 +7,7 @@ const routes = express.Router();
 const ContrachequeController = require('./controllers/ContrachequeController');
 const FuncionarioController = require('./controllers/FuncionarioController');
 const SetorController = require('./controllers/SetorController');
+const TarefaController = require('./controllers/TarefaController');
 const TipoUsuarioController = require('./controllers/TipoUsuarioController');
 const UsuarioController = require('./controllers/UsuarioController');
 
@@ -30,6 +31,13 @@ routes.get('/api/setor', SetorController.index);
 routes.get('/api/setor.details/:cod_setor', SetorController.details);
 routes.delete('/api/setor/:cod_setor', SetorController.delete);
 routes.put('/api/setor', SetorController.update);
+
+// Rotas - Tarefa
+routes.post('/api/tarefa', TarefaController.index);
+routes.post('/api/tarefa/cadastrar', TarefaController.create);
+routes.get('/api/tarefa.details/:cod_tarefa', TarefaController.details);
+routes.delete('/api/tarefa/:cod_tarefa', TarefaController.delete);
+routes.put('/api/tarefa', TarefaController.update);
 
 // Rotas - TipoUsuario
 routes.post('/api/tipousuario', TipoUsuarioController.create);

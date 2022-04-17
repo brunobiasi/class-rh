@@ -3,6 +3,7 @@ export const ID_USUARIO = '&id-usuario';
 export const NOME_USUARIO = '&nome-usuario';
 export const ID_FUNCIONARIO = '&id-funcionario';
 export const USER_TYPE = '&user-type';
+export const ID_SETOR = '&id-setor';
 
 export const login = token => localStorage.setItem(TOKEN_KEY, token);
 export const logout = () => localStorage.clear();
@@ -18,5 +19,8 @@ export const getIdFuncionario = () => localStorage.getItem(ID_FUNCIONARIO);
 
 export const setTipoUsuario = tipo => localStorage.setItem(USER_TYPE, tipo);
 export const getTipoUsuario = () => localStorage.getItem(USER_TYPE);
+
+export const setIdSetor = id_setor => localStorage.setItem(ID_SETOR, id_setor);
+export const getIdSetor = () => localStorage.getItem(ID_SETOR);
 
 export const getToken = () => localStorage.getItem(TOKEN_KEY);

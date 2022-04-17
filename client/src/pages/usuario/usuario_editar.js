@@ -18,6 +18,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import SaveIcon from '@mui/icons-material/Save';
 import { useParams } from 'react-router-dom';
 import api from '../../services/api';
+import { getTipoUsuario } from '../../services/auth';
 
 const mdTheme = createTheme();
 
@@ -32,6 +33,8 @@ function DashboardContent() {
   const [codFuncionario, setCodFuncionario] = useState('');
 
   const { cod_usuario } = useParams();
+
+  const tipo_usuario = getTipoUsuario();
 
   async function loadTipoUsuario() {
     const response = await api.get("/api/tipousuario");
@@ -96,7 +99,9 @@ function DashboardContent() {
             <Grid container spacing={3}>
               <Grid item sm={12}>
                 <Button style={{ marginBottom: 10, marginRight: 5 }} variant="contained" href={'/usuario/' + codFuncionario}><ArrowBackIcon />Voltar</Button>
-                <Button style={{ marginBottom: 10 }} variant="contained" href={'/usuario/cadastrar/' + codFuncionario}><AddIcon />Cadastrar</Button>
+                {tipo_usuario === '1' && (
+                  <Button style={{ marginBottom: 10 }} variant="contained" href={'/usuario/cadastrar/' + codFuncionario}><AddIcon />Cadastrar</Button>
+                )}
                 <Paper
                   sx={{
                     p: 2,
@@ -119,36 +124,40 @@ function DashboardContent() {
                         onChange={e => setNomeUsuario(e.target.value)}
                       />
                     </Grid>
-                    <Grid item xs={12} sm={6}>
-                      <TextField
-                        required
-                        id="email_usuario"
-                        name="email_usuario"
-                        label="Email"
-                        fullWidth
-                        autoComplete="email_usuario"
-                        variant="standard"
-                        value={emailUsuario}
-                        onChange={e => setEmailUsuario(e.target.value)}
-                      />
-                    </Grid>
-                    <Grid item xs={12} sm={3}>
-                      <FormControl variant="standard" fullWidth>
-                        <InputLabel id="label_tipo_usuario">Tipo de Usuário</InputLabel>
-                        <Select
-                          labelId="label_tipo_usuario"
-                          id="cod_tipo_usuario"
-                          value={codTipoUsuario}
-                          onChange={e => setCodTipoUsuario(e.target.value)}
-                          label="cod_tipo_usuario"
-                        >
-                          {tipoUsuario.map((row) => (
-                            <MenuItem value={row.cod_tipo_usuario}>{row.nome_tipo_usuario}</MenuItem>
-                          ))}
-                        </Select>
-                      </FormControl>
-                    </Grid>
-                    <Grid item xs={12} sm={3}>
+                    {tipo_usuario === '1' && (
+                      <Grid item xs={12} sm={12}>
+                        <TextField
+                          required
+                          id="email_usuario"
+                          name="email_usuario"
+                          label="Email"
+                          fullWidth
+                          autoComplete="email_usuario"
+                          variant="standard"
+                          value={emailUsuario}
+                          onChange={e => setEmailUsuario(e.target.value)}
+                        />
+                      </Grid>
+                    )}
+                    {tipo_usuario === '1' && (
+                      <Grid item xs={12} sm={12}>
+                        <FormControl variant="standard" fullWidth>
+                          <InputLabel id="label_tipo_usuario">Tipo de Usuário</InputLabel>
+                          <Select
+                            labelId="label_tipo_usuario"
+                            id="cod_tipo_usuario"
+                            value={codTipoUsuario}
+                            onChange={e => setCodTipoUsuario(e.target.value)}
+                            label="cod_tipo_usuario"
+                          >
+                            {tipoUsuario.map((row) => (
+                              <MenuItem value={row.cod_tipo_usuario}>{row.nome_tipo_usuario}</MenuItem>
+                            ))}
+                          </Select>
+                        </FormControl>
+                      </Grid>
+                    )}
+                    <Grid item xs={12} sm={12}>
                       <TextField
                         type="password"
                         required

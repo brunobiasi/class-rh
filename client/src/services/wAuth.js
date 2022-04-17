@@ -29,7 +29,6 @@ export default function WAuth({ component: Component, ...rest }) {
             render={props => !redirect ? (
                 <Component {...props} />
                 ) : <Redirect to={{ pathname: "/login", state: { from: props.location } }} />
-                // <Component {...props} />
             } />
     )
 }

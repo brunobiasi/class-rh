@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 const Usuario = require('../models/Usuario');
+const Funcionario = require('../models/Funcionario');
 const TipoUsuario = require('../models/TipoUsuario');
 const jwt = require('jsonwebtoken');
 const secret = process.env.APP_SECRET;
@@ -50,7 +51,10 @@ module.exports = {
     async login(req, res) {
         const { email_usuario, password } = req.body;
 
-        const usuario = await Usuario.findOne({ where: { email_usuario } });
+        const usuario = await Usuario.findOne({
+            where: { email_usuario },
+            include: [Funcionario]
+        });
 
         if (!usuario) {
             return res.status(200).json({ status: 2, error: "E-mail não encontrado no banco de dados" });
@@ -64,7 +68,16 @@ module.exports = {
                 expiresIn: '24h'
             });
             res.cookie('token', token, { httpOnly: true });
-            res.status(200).json({ status: 1, auth: true, token: token, id_client: usuario.cod_usuario, user_name: usuario.nome_usuario, id_funcionario: usuario.cod_funcionario, user_type: usuario.cod_tipo_usuario });
+            res.status(200).json({
+                status: 1,
+                auth: true,
+                token: token,
+                id_client: usuario.cod_usuario,
+                user_name: usuario.nome_usuario,
+                id_funcionario: usuario.cod_funcionario,
+                user_type: usuario.cod_tipo_usuario,
+                id_setor: usuario.funcionario.cod_setor,
+            });
         }
     },
     async checkToken(req, res) {

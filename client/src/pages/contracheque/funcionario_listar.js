@@ -15,6 +15,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Button from '@mui/material/Button';
 import LinearProgress from '@mui/material/LinearProgress';
+import InfoIcon from '@mui/icons-material/Info';
 import api from '../../services/api';
 
 const mdTheme = createTheme();
@@ -61,7 +62,7 @@ function DashboardContent() {
                                         flexDirection: 'column',
                                     }}
                                 >
-                                    <h2>Listagem de Funcionários</h2>
+                                    <h2>Selecione um Funcionário</h2>
                                     <Grid container spacing={3}>
                                         <Grid item xs={12} sm={12}>
                                             <TableContainer component={Paper}>
@@ -85,7 +86,7 @@ function DashboardContent() {
                                                                     </TableCell>
                                                                     <TableCell align="center">{row.setor.nome_setor}</TableCell>
                                                                     <TableCell align="right">
-                                                                        <Button variant="contained" href={'/contracheque/' + row.cod_funcionario}>Visualizar</Button>
+                                                                        <Button variant="contained" href={'/contracheque/' + row.cod_funcionario}><InfoIcon /></Button>
                                                                     </TableCell>
                                                                 </TableRow>
                                                             ))}

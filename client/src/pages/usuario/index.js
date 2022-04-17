@@ -15,6 +15,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Button from '@mui/material/Button';
 import ButtonGroup from '@mui/material/ButtonGroup';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import Chip from '@mui/material/Chip';
 import LinearProgress from '@mui/material/LinearProgress';
 import AddIcon from '@mui/icons-material/Add';
@@ -23,6 +24,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { useParams } from 'react-router-dom';
 import api from '../../services/api';
 import { getTipoUsuarioColor } from '../../functions/static_data_usuario';
+import { getTipoUsuario } from '../../services/auth';
 
 const mdTheme = createTheme();
 
@@ -32,6 +34,8 @@ function DashboardContent() {
   const [loading, setLoading] = useState(true);
 
   const { cod_funcionario } = useParams();
+
+  const tipo_usuario = getTipoUsuario();
 
   async function loadUsuario() {
     const response = await api.get("/api/usuario/" + cod_funcionario);
@@ -74,7 +78,12 @@ function DashboardContent() {
           <Container maxWidth="lg" sx={{ mt: 2, mb: 4 }}>
             <Grid container spacing={3}>
               <Grid item sm={12}>
-                <Button style={{ marginBottom: 10 }} variant="contained" href={'/usuario/cadastrar/' + cod_funcionario}><AddIcon />Cadastrar</Button>
+                {tipo_usuario === '1' && (
+                  <div>
+                    <Button style={{ marginBottom: 10, marginRight: 5 }} variant="contained" href={'/usuario'}><ArrowBackIcon />Voltar</Button>
+                    <Button style={{ marginBottom: 10 }} variant="contained" href={'/usuario/cadastrar/' + cod_funcionario}><AddIcon />Cadastrar</Button>
+                  </div>
+                )}
                 <Paper
                   sx={{
                     p: 2,
@@ -110,7 +119,9 @@ function DashboardContent() {
                                   <TableCell align="right">
                                     <ButtonGroup aria-label="outlined primary button group">
                                       <Button variant="contained" href={'/usuario/editar/' + row.cod_usuario}><EditIcon /></Button>
-                                      <Button variant="contained" onClick={() => handleDelete(row.cod_usuario)}><DeleteIcon /></Button>
+                                      {tipo_usuario === '1' && (
+                                        <Button variant="contained" onClick={() => handleDelete(row.cod_usuario)}><DeleteIcon /></Button>
+                                      )}
                                     </ButtonGroup>
                                   </TableCell>
                                 </TableRow>

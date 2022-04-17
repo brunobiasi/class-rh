@@ -8,5 +8,5 @@ export const dateNow = () => {
         dia = date.getDate().toString().padStart(2, '0'),
         mes = (date.getMonth() + 1).toString().padStart(2, '0'),
         ano = date.getFullYear();
-    return `${ano}-${mes}-${dia}`;
+    return `${dia}/${mes}/${ano}`;
 }

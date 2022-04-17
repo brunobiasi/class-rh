@@ -105,7 +105,7 @@ function DashboardContent() {
                         onChange={e => setNomeUsuario(e.target.value)}
                       />
                     </Grid>
-                    <Grid item xs={12} sm={6}>
+                    <Grid item xs={12} sm={12}>
                       <TextField
                         required
                         id="email_usuario"
@@ -118,7 +118,7 @@ function DashboardContent() {
                         onChange={e => setEmailUsuario(e.target.value)}
                       />
                     </Grid>
-                    <Grid item xs={12} sm={3}>
+                    <Grid item xs={12} sm={12}>
                       <FormControl variant="standard" fullWidth>
                         <InputLabel id="label_tipo_usuario">Tipo de Usuário</InputLabel>
                         <Select
@@ -134,7 +134,7 @@ function DashboardContent() {
                         </Select>
                       </FormControl>
                     </Grid>
-                    <Grid item xs={12} sm={3}>
+                    <Grid item xs={12} sm={12}>
                       <TextField
                         type="password"
                         required

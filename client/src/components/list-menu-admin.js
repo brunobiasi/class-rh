@@ -10,21 +10,31 @@ import AutoStoriesIcon from '@mui/icons-material/AutoStories';
 import BusinessIcon from '@mui/icons-material/Business';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import ExitToApp from '@mui/icons-material/ExitToApp';
-import { logout, getIdUsuario, getIdFuncionario, getTipoUsuario, getToken } from '../services/auth';
+import { logout, getIdUsuario, getIdFuncionario, getTipoUsuario, getIdSetor, getToken } from '../services/auth';
 import api from '../services/api';
 
 const cod_usuario = getIdUsuario();
 const cod_funcionario = getIdFuncionario();
 const tipo_usuario = getTipoUsuario();
+const cod_setor = getIdSetor();
 
 export const mainListItems = (
   <div>
-    <ListItem button component="a" href="/agenda">
-      <ListItemIcon>
-        <CalendarTodayIcon />
-      </ListItemIcon>
-      <ListItemText primary="Agenda" />
-    </ListItem>
+    {tipo_usuario === '1' ? (
+      <ListItem button component="a" href="/">
+        <ListItemIcon>
+          <CalendarTodayIcon />
+        </ListItemIcon>
+        <ListItemText primary="Agenda" />
+      </ListItem>
+    ) : (
+      <ListItem button component="a" href={"/tarefa/" + cod_setor}>
+        <ListItemIcon>
+          <CalendarTodayIcon />
+        </ListItemIcon>
+        <ListItemText primary="Agenda" />
+      </ListItem>
+    )}
     {tipo_usuario === '1' ? (
       <ListItem button component="a" href="/contracheque">
         <ListItemIcon>

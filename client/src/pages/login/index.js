@@ -18,7 +18,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import CircularProgress from '@mui/material/CircularProgress';
 import api from '../../services/api';
-import { login, setIdUsuario, setNomeUsuario, setTipoUsuario, setIdFuncionario } from '../../services/auth';
+import { login, setIdUsuario, setNomeUsuario, setTipoUsuario, setIdFuncionario, setIdSetor } from '../../services/auth';
 
 function Copyright(props) {
     return (
@@ -51,8 +51,13 @@ export default function SignIn() {
                         setNomeUsuario(res.data.user_name);
                         setIdFuncionario(res.data.id_funcionario);
                         setTipoUsuario(res.data.user_type);
+                        setIdSetor(res.data.id_setor);
 
-                        window.location.href = '/';
+                        if (res.data.user_type === 1) {
+                            window.location.href = '/';
+                        } else {
+                            window.location.href = '/tarefa/' + res.data.id_setor;
+                        }
                     } else if (res.data.status === 2) {
                         alert("Atenção: " + res.data.error);
                     }

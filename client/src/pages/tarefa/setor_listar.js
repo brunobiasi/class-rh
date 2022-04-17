@@ -22,23 +22,23 @@ const mdTheme = createTheme();
 
 function DashboardContent() {
 
-    const [funcionario, setFuncionario] = useState([]);
+    const [setor, setSetor] = useState([]);
     const [loading, setLoading] = useState(true);
 
-    async function loadFuncionario() {
-        const response = await api.get("/api/funcionario");
-        setFuncionario(response.data);
+    async function loadSetor() {
+        const response = await api.get("/api/setor");
+        setSetor(response.data);
         setLoading(false);
     }
 
     useEffect(() => {
-        loadFuncionario();
+        loadSetor();
     }, []);
 
     return (
         <ThemeProvider theme={mdTheme}>
             <Box sx={{ display: 'flex' }}>
-                <MenuAdmin title={'FUNCIONÁRIOS'} />
+                <MenuAdmin title={'AGENDA'} />
                 <Box
                     component="main"
                     sx={{
@@ -62,7 +62,7 @@ function DashboardContent() {
                                         flexDirection: 'column',
                                     }}
                                 >
-                                    <h2>Selecione um Funcionário</h2>
+                                    <h2>Selecione um Setor</h2>
                                     <Grid container spacing={3}>
                                         <Grid item xs={12} sm={12}>
                                             <TableContainer component={Paper}>
@@ -71,22 +71,20 @@ function DashboardContent() {
                                                         <TableHead>
                                                             <TableRow>
                                                                 <TableCell>Nome</TableCell>
-                                                                <TableCell align="center">Setor</TableCell>
                                                                 <TableCell align="right"></TableCell>
                                                             </TableRow>
                                                         </TableHead>
                                                         <TableBody>
-                                                            {funcionario.map((row) => (
+                                                            {setor.map((row) => (
                                                                 <TableRow
-                                                                    key={row.cod_funcionario}
+                                                                    key={row.cod_setor}
                                                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                                                 >
                                                                     <TableCell component="th" scope="row">
-                                                                        {row.nome_funcionario_completo}
+                                                                        {row.nome_setor}
                                                                     </TableCell>
-                                                                    <TableCell align="center">{row.setor.nome_setor}</TableCell>
                                                                     <TableCell align="right">
-                                                                        <Button variant="contained" href={'/usuario/' + row.cod_funcionario}><InfoIcon /></Button>
+                                                                        <Button variant="contained" href={'/tarefa/' + row.cod_setor}><InfoIcon /></Button>
                                                                     </TableCell>
                                                                 </TableRow>
                                                             ))}
@@ -106,6 +104,6 @@ function DashboardContent() {
     );
 }
 
-export default function FuncionarioListagem() {
+export default function SetorListagem() {
     return <DashboardContent />;
 }

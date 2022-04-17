@@ -14,12 +14,16 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
 import LinearProgress from '@mui/material/LinearProgress';
 import AddIcon from '@mui/icons-material/Add';
+import EditIcon from '@mui/icons-material/Edit';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import DeleteIcon from '@mui/icons-material/Delete';
+import InfoIcon from '@mui/icons-material/Info';
 import { useParams } from 'react-router-dom';
 import api from '../../services/api';
+import { getTipoUsuario } from '../../services/auth';
 
 const mdTheme = createTheme();
 
@@ -29,6 +33,8 @@ function DashboardContent() {
   const [loading, setLoading] = useState(true);
 
   const { cod_funcionario } = useParams();
+
+  const tipo_usuario = getTipoUsuario();
 
   async function loadContracheque() {
     const response = await api.get("/api/contracheque/" + cod_funcionario);
@@ -71,8 +77,12 @@ function DashboardContent() {
           <Container maxWidth="lg" sx={{ mt: 2, mb: 4 }}>
             <Grid container spacing={3}>
               <Grid item sm={12}>
-                <Button style={{ marginBottom: 10, marginRight: 5 }} variant="contained" href={'/contracheque'}><ArrowBackIcon />Voltar</Button>
-                <Button style={{ marginBottom: 10 }} variant="contained" href={'/contracheque/cadastrar/' + cod_funcionario}><AddIcon />Cadastrar</Button>
+                {tipo_usuario === '1' && (
+                  <div>
+                    <Button style={{ marginBottom: 10, marginRight: 5 }} variant="contained" href={'/contracheque'}><ArrowBackIcon />Voltar</Button>
+                    <Button style={{ marginBottom: 10 }} variant="contained" href={'/contracheque/cadastrar/' + cod_funcionario}><AddIcon />Cadastrar</Button>
+                  </div>
+                )}
                 <Paper
                   sx={{
                     p: 2,
@@ -104,7 +114,15 @@ function DashboardContent() {
                                   </TableCell>
                                   <TableCell align="center"><a href={'http://localhost:5000/files/' + row.key_contracheque} target='_blank'>{row.nome_contracheque}</a></TableCell>
                                   <TableCell align="right">
-                                    <Button variant="contained" onClick={() => handleDelete(row.cod_contracheque)}><DeleteIcon /></Button>
+                                    {tipo_usuario === '1' ? (
+                                      <ButtonGroup aria-label="outlined primary button group">
+                                        <Button variant="contained" href={'/contracheque/editar/' + row.cod_contracheque}><EditIcon /></Button>
+                                        <Button variant="contained" onClick={() => handleDelete(row.cod_contracheque)}><DeleteIcon /></Button>
+                                      </ButtonGroup>
+                                    ) : (
+                                      <Button variant="contained" href={'/contracheque/detalhes/' + row.cod_contracheque}><InfoIcon /></Button>
+                                    )}
+
                                   </TableCell>
                                 </TableRow>
                               ))}
